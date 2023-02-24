@@ -1,0 +1,28 @@
+/* .bg-primary {
+  background-color: #495E57;
+}
+.bg-secondary {
+  background-color: #F4CE14;
+} */
+/* .text-center {
+  text-align: center;
+} */
+.pl-80 {
+  padding-left: 80px;
+}
+.py-20 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+/* hero */
+main {
+  height: 340px;
+}
+
+/* .hero-image img {
+  width: 334px;
+  height: 340px;
+  object-fit: cover;
+} */
+
+/* product */
