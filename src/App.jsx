@@ -3,11 +3,11 @@ import { Routes, Route, Link } from 'react-router-dom'
 import './App.css';
 
 import logoFooter from './assets/logo_dung.png';
-import HomePage from './pages/HomePage';
+import Main from './pages/Main';
 import { ReactComponent as Logo } from './assets/Logo.svg';
 import { ReactComponent as Backet } from './assets/basket.svg';
 import { ReactComponent as Hamberger } from './assets/hamburger_menu.svg';
-import BookingPage from './pages/BookingPage';
+import Bookings from './pages/Bookings';
 
 
 function App() {
@@ -33,8 +33,8 @@ function App() {
         </div>
       </header>
       <Routes>
-        <Route path="/" element={<HomePage />}></Route>
-        <Route path='/booking' element={<BookingPage />}></Route>
+        <Route path="/" element={<Main />}></Route>
+        <Route path='/booking' element={<Bookings />}></Route>
       </Routes>
       <footer className='bg-green mt-16 hidden md:block'>
         <div className='w-full lg:w-[870px] mx-auto py-16 flex justify-betweeen px-5 lg:px-0'>

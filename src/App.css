@@ -5,8 +5,10 @@
   padding-top: 20px;
   padding-bottom: 20px;
 }
-/* hero */
+
+html {
+  overflow-y: scroll;
+}
 main {
   height: 340px;
 }
-

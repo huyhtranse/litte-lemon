@@ -38,7 +38,6 @@ const productList = [
 const HomePage = () => {
   return (
     <>
-      
       <main className="bg-green h-[300px] md:h-[340px]">
         <div className="w-full lg:w-[870px] flex justify-between mx-auto py-9 px-5 lg:px-0">
           <div className="w-2/4">
