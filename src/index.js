@@ -3,14 +3,20 @@ import ReactDOM from 'react-dom/client';
 import {BrowserRouter as Router} from 'react-router-dom'
 import './index.css';
 import App from './App';
+import { FormProvider } from './context/formContext';
+import { AlertProvider } from './context/alertContext';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
+    <AlertProvider>
+      <FormProvider>
+        <Router>
+          <App />
+        </Router>
+      </FormProvider>
+    </AlertProvider>
   </React.StrictMode>
 );
 

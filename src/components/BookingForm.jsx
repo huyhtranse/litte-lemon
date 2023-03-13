@@ -1,64 +1,56 @@
+import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
+import * as Yup from 'yup';
+import { useForm } from "../context/formContext";
 import Button from "./Button";
+import useSubmit from "../hooks/useSubmit";
+import { useAlertContext } from "../context/alertContext";
+
+const regex = new RegExp('/^[0-3][0-9]/[0-3][0-9]/(?:[0-9][0-9])?[0-9][0-9]$/');
 
 const BookingForm = () => {
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("17:00");
-  const [numberGuests, setNumberGuests] = useState(1);
-  const [occasion, setOccasion] = useState();
-  const [availableTimes, setAvailableTimes] = useState([
-    "17:00",
-    "18:00",
-    "19:00",
-    "20:00",
-    "21:00",
-    "22:00",
-  ]);
-  
+  const { availableTimes } = useForm();
+  const { isLoading, response, submit } = useSubmit();
+  const { onOpen } = useAlertContext();
+
   useEffect(() => {
-    setAvailableTimes(fetchAPI(new Date()));
-  }, [])
-
-  const seededRandom = function (seed) {
-    var m = 2**35 - 31;
-    var a = 185852;
-    var s = seed % m;
-    return function () {
-        return (s = s * a % m) / m;
-    };
-  }
-
-  const fetchAPI = function(date) {
-      let result = [];
-      let random = seededRandom(date.getDate());
-
-      for(let i = 17; i <= 23; i++) {
-          if(random() < 0.5) {
-              result.push(i + ':00');
-          }
-          if(random() < 0.5) {
-              result.push(i + ':30');
-          }
+    if (response) {
+      onOpen(response.type, response.message);
+      if (response.type === "success") {
+        formik.resetForm();
       }
-      return result;
-  };
-  
-  const submitAPI = function(e) {
-    e.preventDefault();
-    return true;
-  };
+    }
+  }, [response]); 
+
+  const formik = useFormik({
+    initialValues: {
+      date: '',
+      time: '00:00',
+      numberGuests: 1,
+      occasion: 'Birthday'
+    },
+    onSubmit: (values) => {  
+      console.log('submitted')
+      submit('https://john.com/contactme', values);
+    },
+    // validationSchema: Yup.object({
+    //   date: Yup.string().matches(regex).required("Required"), 
+    //   time: Yup.string().required("Required"),
+    //   numberGuests: Yup.number().required("Required").positive().integer(),
+    //   occasion: Yup.string().matches(/(Birthday|Anniversary)/).required('Required')
+    // })
+  });
 
   return (
-    <form className="grid max-w-[200px] gap-[10px]" onSubmit={(e) => submitAPI(e)}>
+    <form className="grid max-w-[200px] gap-[10px]" onSubmit={formik.handleSubmit}>
       <label htmlFor="res-date" className="font-semibold">
         Choose date
       </label>
       <input
-        className="rounded-lg border-solid border-2 border-green p-1.5"
+        className={`rounded-lg border-solid border-2 p-1.5 border-green ${!!formik.errors.date && formik.touched.date ? 'border-red' : ''}`}
         type="date"
         id="res-date"
-        onChange={(e) => setDate(e.target.value)}
-        value={date}
+        {...formik.getFieldProps('date')}
       />
 
       <label htmlFor="res-time" className="font-semibold">
@@ -67,8 +59,7 @@ const BookingForm = () => {
       <select
         className="rounded-lg border-solid border-2 border-green p-1.5"
         id="res-time"
-        onChange={(e) => setTime(e.target.value)}
-        value={time}
+        {...formik.getFieldProps('time')}
       >
         {availableTimes.map((time, index) => (
           <option key={index} value={time}>
@@ -87,8 +78,7 @@ const BookingForm = () => {
         min="1"
         max="10"
         id="guests"
-        onChange={(e) => setNumberGuests(e.target.value)}
-        value={numberGuests}
+        {...formik.getFieldProps('numberGuests')}
       />
 
       <label htmlFor="occasion" className="font-semibold">
@@ -97,15 +87,14 @@ const BookingForm = () => {
       <select
         className="rounded-lg border-solid border-2 border-green bg-green text-white p-1.5"
         id="occasion"
-        onChange={(e) => setOccasion(e.target.value)}
-        value={occasion}
+        {...formik.getFieldProps('occasion')}
       >
         <option>Birthday</option>
         <option>Anniversary</option>
       </select>
 
       <div className="mt-5 border-t-2 pt-6">
-        <Button styles="w-[200px]" type="submit">
+        <Button styles="w-[200px]" typeButton='submit'>
           Make a Reservations
         </Button>
       </div>

@@ -9,6 +9,14 @@ import { ReactComponent as Backet } from './assets/basket.svg';
 import { ReactComponent as Hamberger } from './assets/hamburger_menu.svg';
 import Bookings from './pages/Bookings';
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'value':
+      break;
+    default:
+      return state;
+  }
+}
 
 function App() {
   const [toggle, setToggle] = useState(false);
